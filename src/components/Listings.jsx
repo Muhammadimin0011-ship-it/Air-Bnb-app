@@ -3,6 +3,7 @@ import { useMutation, useQuery } from '@apollo/client/react';
 import { useState } from 'react';
 import { useAuth } from '../store/useAuth';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import '../style/listings.css'
 
 const LISTINGS_QUERY = gql`
     query Listings($limit: Int, $page: Int, $search: String) {
@@ -29,29 +30,29 @@ mutation Mutation($listingId: ID!) {
   }
 }`
 
-function Listings() {
-    const [page, setPage] = useState(1);
-    const [search, setSearch] = useState('');
+function Listings({ search, setPage, page }) {
+
 
     const { accessToken } = useAuth();
 
     const { data, loading, error } = useQuery(LISTINGS_QUERY, {
         variables: {
-            limit: 10,
+            limit: 16,
             page: page,
-            search: search
+            search: search,
         }
     });
 
     const [addFavorite] = useMutation(ADD_FAV)
 
     console.log(data);
+    console.log(accessToken);
 
     const totalPages = data?.listings?.pagination?.totalPages || 0;
 
     return (
         <div>
-            <h1>{accessToken}</h1>
+
 
             {error && (
                 <h1 style={{ color: 'red' }}>
@@ -61,38 +62,33 @@ function Listings() {
 
             {loading && <h1>Loading...</h1>}
 
-            <input
-                type="text"
-                value={search}
-                placeholder="Search..."
-                onChange={(e) => {
-                    setSearch(e.target.value);
-                    setPage(1);
-                }}
-            />
 
-            {data?.listings?.items?.map((item) => (
-                <div key={item.id}>
-                    <img
-                        src={item.images?.[0]}
-                        alt="apartments picture"
-                        width="200"
-                    />
+            <div className="wrapper">
+                {data?.listings?.items?.map((item) => (
+                    <div className="apartment-card" key={item.id}>
+                        <img
+                            src={item.images?.[0]}
+                            alt="apartments picture"
+                        />
 
-                    <h1>{item.title}</h1>
+                        <h5>{item.title}</h5>
 
-                    <button onClick={() => addFavorite({
-                        variables: {
-                            listingId: item.id
-                        }
-                    })}>
-                        <FavoriteBorderIcon />
-                    </button>
+                        <p>
+                            {item.pricePerNight}$ - {item.rating}⭐
 
-                    <p>{item.pricePerNight}</p>
-                    <p>{item.rating}</p>
-                </div>
-            ))}
+
+                            <button onClick={() => addFavorite({
+                                variables: { listingId: item.id }
+                            })}>
+                                <FavoriteBorderIcon />
+                            </button>
+                        </p>
+
+
+
+                    </div>
+                ))}
+            </div>
 
             <div>
                 {new Array(totalPages).fill('').map((_, index) => (
