@@ -4,6 +4,7 @@ import { Container, Paper, Stack, TextField, Typography } from '@mui/material'
 import { Controller, useForm } from "react-hook-form"
 import { toast } from "react-toastify"
 import { useAuth } from "../store/useAuth"
+import Button from '@mui/material/Button';
 
 const REGISTER_MUTATION = gql`
     mutation Register($email: String!, $name: String!, $password: String!){
@@ -59,7 +60,9 @@ function SingUp() {
                     <Controller name="password" control={control} render={({ field, fieldState: { error } }) => (
                         <TextField type="password" {...field} label="enter password" error={error} helperText={error && error.message} />
                     )} />
-                    <button onClick={handleSubmit(handleSingUp)}>sign ap</button>
+                    <Button onClick={handleSubmit(handleSingUp)} variant="contained" disableElevation>
+                        Sing up
+                    </Button>
                 </Stack>
 
 
