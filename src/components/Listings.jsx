@@ -5,6 +5,7 @@ import { useAuth } from '../store/useAuth';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import '../style/listings.css'
 import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt';
+import { Link } from "react-router";
 
 const LISTINGS_QUERY = gql`
     query Listings($limit: Int, $page: Int, $search: String) {
@@ -70,29 +71,27 @@ function Listings({ search, setPage, page }) {
 
 
                 <div className="wrapper">
-                    {data?.listings?.items?.map((item) => (
-                        <div className="apartment-card" key={item.id}>
-                            <img
-                                src={item.images?.[0]}
-                                alt="apartments picture"
-                            />
+                    {data?.listings?.items.map((listing) => (
+                        <Link
+                            key={listing.id}
+                            to={`/listing/${listing.id}`}
+                            style={{ textDecoration: "none", color: "inherit" }}
+                        >
+                            <div className="apartment-card">
+                                <img
+                                    src={listing.images?.[0]}
+                                    alt={listing.title}
+                                />
 
-                            <h5>{item.title}</h5>
+                                <h3>{listing.title}</h3>
 
-                            <p>
-                                {item.pricePerNight}$ - {item.rating}⭐
+                                <p>⭐ {listing.rating}</p>
 
-
-                                <button onClick={() => addFavorite({
-                                    variables: { listingId: item.id }
-                                })}>
-                                    <FavoriteBorderIcon />
-                                </button>
-                            </p>
-
-
-
-                        </div>
+                                <p>
+                                    ${listing.pricePerNight} / night
+                                </p>
+                            </div>
+                        </Link>
                     ))}
                 </div>
 

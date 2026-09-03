@@ -1,32 +1,51 @@
 import { useState } from "react";
-import { HttpLink, InMemoryCache, ApolloClient } from "@apollo/client";
 import { ApolloProvider } from "@apollo/client/react";
-import Listings from "./components/Listings";
-import { Link, Route, Routes } from "react-router";
-import SingUp from "./components/SingUp";
+import { Route, Routes } from "react-router";
 import { ToastContainer } from "react-toastify";
-import { graphqlClient } from "./store/graph-client";
+
+import Listings from "./components/Listings";
+import SingUp from "./components/SingUp";
 import Header from "./components/Header";
-import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt';
+import Detail from "./components/Detail";
 
-
+import { graphqlClient } from "./store/graph-client";
 
 function App() {
-  const [search, setSearch] = useState('');
+  const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
 
   return (
     <ApolloProvider client={graphqlClient}>
 
-      <Header search={search} setSearch={setSearch} setPage={setPage} />
-
-
-     
+      <Header
+        search={search}
+        setSearch={setSearch}
+        setPage={setPage}
+      />
 
       <ToastContainer />
+
       <Routes>
-        <Route path="/" element={<Listings search={search} page={page} setPage={setPage} />}></Route>
-        <Route path="/sing-up" element={<SingUp />} />
+        <Route
+          path="/"
+          element={
+            <Listings
+              search={search}
+              page={page}
+              setPage={setPage}
+            />
+          }
+        />
+
+        <Route
+          path="/sing-up"
+          element={<SingUp />}
+        />
+
+        <Route
+          path="/listing/:id"
+          element={<Detail />}
+        />
       </Routes>
 
     </ApolloProvider>
