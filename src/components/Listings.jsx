@@ -56,6 +56,9 @@ function Listings({ search, setPage, page }) {
 
     const [favorites, setFavorites] = useState([]);
 
+    console.log(favorites);
+
+
     return (
         <>
             <div>
@@ -79,41 +82,69 @@ function Listings({ search, setPage, page }) {
                         <Link
                             key={listing.id}
                             to={`/listing/${listing.id}`}
-                            style={{ textDecoration: "none", color: "inherit" }}
+                            style={{
+                                textDecoration: "none",
+                                color: "inherit",
+                            }}
                         >
-                            <div className="apartment-card" style={{ position: "relative" }}>
-
+                            <div
+                                className="apartment-card"
+                                style={{
+                                    position: "relative",
+                                }}
+                            >
                                 <button
-                                    onClick={(e) => {
+                                    onClick={async (e) => {
                                         e.preventDefault();
 
-                                        if (favorites.includes(listing.id)) {
-                                            setFavorites(
-                                                favorites.filter((id) => id !== listing.id)
-                                            );
-                                        } else {
+                                        try {
+                                            await addFavorite({
+                                                variables: {
+                                                    listingId: listing.id,
+                                                },
+                                            });
+
                                             setFavorites([...favorites, listing.id]);
+                                        } catch (error) {
+                                            console.log(error);
                                         }
                                     }}
                                     style={{
                                         position: "absolute",
-                                        top: "10px",
-                                        right: "10px",
+                                        top: "12px",
+                                        right: "12px",
+                                        zIndex: 2,
+
+                                        width: "42px",
+                                        height: "42px",
+
                                         border: "none",
-                                        background: "white",
                                         borderRadius: "50%",
-                                        width: "40px",
-                                        height: "40px",
-                                        cursor: "pointer",
+                                        background: "white",
+
                                         display: "flex",
                                         alignItems: "center",
                                         justifyContent: "center",
+
+                                        cursor: "pointer",
+
+                                        boxShadow: "0 2px 8px rgba(0, 0, 0, 0.15)",
                                     }}
                                 >
                                     {favorites.includes(listing.id) ? (
-                                        <FavoriteIcon />
+                                        <FavoriteIcon
+                                            style={{
+                                                color: "red",
+                                                fontSize: "24px",
+                                            }}
+                                        />
                                     ) : (
-                                        <FavoriteBorderIcon />
+                                        <FavoriteBorderIcon
+                                            style={{
+                                                color: "#333",
+                                                fontSize: "24px",
+                                            }}
+                                        />
                                     )}
                                 </button>
 
