@@ -1,8 +1,18 @@
 import '../style/header.css';
 import { Link } from 'react-router';
 import SingUp from './SingUp';
+import { useAuth } from '../store/useAuth';
+import LogoutIcon from '@mui/icons-material/Logout';
+import { Avatar } from '@mui/material';
+import { deepOrange } from '@mui/material/colors';
 
 function Header({ search, setSearch, setPage }) {
+
+    function LeaveAccount() {
+        localStorage.clear()
+    }
+
+    const { accessToken, user } = useAuth()
     return (
         <div className="header">
             <img
@@ -20,9 +30,11 @@ function Header({ search, setSearch, setPage }) {
                 }}
             />
 
-            <button>
+            {!accessToken ? <button>
                 <Link to="/sing-up">Sign up</Link>
-            </button>
+            </button> : (
+                <Avatar sx={{ bgcolor: deepOrange[500] }}>{user?.name.slice(0,1)}</Avatar>
+            )}
         </div>
     );
 }
