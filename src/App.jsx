@@ -7,6 +7,7 @@ import Listings from "./components/Listings";
 import SingUp from "./components/SingUp";
 import Header from "./components/Header";
 import Detail from "./components/Detail";
+import Favorite from "./components/Favorite";
 
 import { graphqlClient } from "./store/graph-client";
 
@@ -52,6 +53,12 @@ function App() {
         <Route
           path="/"
           element={<App />}
+        />
+
+
+        <Route
+          path="/favorite"
+          element={<Favorite />}
         />
       </Routes>
 

@@ -5,6 +5,8 @@ import { useAuth } from '../store/useAuth';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { Avatar } from '@mui/material';
 import { deepOrange } from '@mui/material/colors';
+import Favorite from './Favorite';
+import FavoriteIcon from "@mui/icons-material/Favorite";
 
 function Header({ search, setSearch, setPage }) {
 
@@ -32,11 +34,16 @@ function Header({ search, setSearch, setPage }) {
                 }}
             />
 
-            {!accessToken ? <button>
-                <Link to="/sing-up">Sign up</Link>
-            </button> : (
-                <Avatar sx={{ bgcolor: deepOrange[500] }}>{user?.name.slice(0, 1)}</Avatar>
-            )}
+            <div className='buttons'>
+                {
+                    <Link to="/favorite"><FavoriteIcon/></Link>
+                }
+                {!accessToken ? <button>
+                    <Link to="/sing-up">Sign up</Link>
+                </button> : (
+                    <Avatar sx={{ bgcolor: deepOrange[500] }}>{user?.name.slice(0, 1)}</Avatar>
+                )}
+            </div>
         </div>
     );
 }

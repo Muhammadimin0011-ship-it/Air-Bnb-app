@@ -3,7 +3,6 @@
     justify-content: space-between;
     align-items: center;
     padding-left: 25px;
-    padding-right: 25px;
     padding-bottom: 10px;
     padding-top: 10px;
 }
@@ -22,4 +21,10 @@ input{
 button{
     border: none;
     outline: none;
+}
+
+.buttons{
+    display: flex;
+    gap: 5px;
+    align-items: center;
 }

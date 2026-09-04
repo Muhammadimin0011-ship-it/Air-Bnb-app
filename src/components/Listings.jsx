@@ -1,11 +1,13 @@
 import { gql } from '@apollo/client';
 import { useMutation, useQuery } from '@apollo/client/react';
-import { useState } from 'react';
 import { useAuth } from '../store/useAuth';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import '../style/listings.css'
 import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt';
 import { Link } from "react-router";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import { useState } from "react";
+
 
 const LISTINGS_QUERY = gql`
     query Listings($limit: Int, $page: Int, $search: String) {
@@ -52,6 +54,8 @@ function Listings({ search, setPage, page }) {
 
     const totalPages = data?.listings?.pagination?.totalPages || 0;
 
+    const [favorites, setFavorites] = useState([]);
+
     return (
         <>
             <div>
@@ -77,7 +81,42 @@ function Listings({ search, setPage, page }) {
                             to={`/listing/${listing.id}`}
                             style={{ textDecoration: "none", color: "inherit" }}
                         >
-                            <div className="apartment-card">
+                            <div className="apartment-card" style={{ position: "relative" }}>
+
+                                <button
+                                    onClick={(e) => {
+                                        e.preventDefault();
+
+                                        if (favorites.includes(listing.id)) {
+                                            setFavorites(
+                                                favorites.filter((id) => id !== listing.id)
+                                            );
+                                        } else {
+                                            setFavorites([...favorites, listing.id]);
+                                        }
+                                    }}
+                                    style={{
+                                        position: "absolute",
+                                        top: "10px",
+                                        right: "10px",
+                                        border: "none",
+                                        background: "white",
+                                        borderRadius: "50%",
+                                        width: "40px",
+                                        height: "40px",
+                                        cursor: "pointer",
+                                        display: "flex",
+                                        alignItems: "center",
+                                        justifyContent: "center",
+                                    }}
+                                >
+                                    {favorites.includes(listing.id) ? (
+                                        <FavoriteIcon />
+                                    ) : (
+                                        <FavoriteBorderIcon />
+                                    )}
+                                </button>
+
                                 <img
                                     src={listing.images?.[0]}
                                     alt={listing.title}
