@@ -26,6 +26,7 @@ function App() {
       <ToastContainer />
 
       <Routes>
+
         <Route
           path="/"
           element={
@@ -45,6 +46,12 @@ function App() {
         <Route
           path="/listing/:id"
           element={<Detail />}
+        />
+
+
+        <Route
+          path="/"
+          element={<App />}
         />
       </Routes>
 

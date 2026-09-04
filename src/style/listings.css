@@ -7,12 +7,14 @@
 .apartment-card {
   width: 100%;
   height: 250px;
-  border: 1px solid;
   box-sizing: border-box;
+  border-radius: 17px;
 }
+
 
 .apartment-card img {
   width: 100%;
   height: 130px;
   object-fit: cover;
+  border-radius: 10px;
 }

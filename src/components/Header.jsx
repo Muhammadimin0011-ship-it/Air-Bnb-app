@@ -15,10 +15,12 @@ function Header({ search, setSearch, setPage }) {
     const { accessToken, user } = useAuth()
     return (
         <div className="header">
-            <img
-                src="https://upload.wikimedia.org/wikipedia/commons/c/c7/Logo_airbnb.png?utm_source=commons.wikimedia.org&utm_campaign=index&utm_content=original"
-                alt="logo"
-            />
+            <Link to="/">
+                <img
+                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRs2Ik-Jkr134J5oFwctPiKBygVf0sg3TSSFwh5hk5nPQ&s=10"
+                    alt="logo"
+                />
+            </Link>
 
             <input
                 type="text"
@@ -33,7 +35,7 @@ function Header({ search, setSearch, setPage }) {
             {!accessToken ? <button>
                 <Link to="/sing-up">Sign up</Link>
             </button> : (
-                <Avatar sx={{ bgcolor: deepOrange[500] }}>{user?.name.slice(0,1)}</Avatar>
+                <Avatar sx={{ bgcolor: deepOrange[500] }}>{user?.name.slice(0, 1)}</Avatar>
             )}
         </div>
     );
