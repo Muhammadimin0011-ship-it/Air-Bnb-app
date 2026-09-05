@@ -52,6 +52,10 @@ function Header({ search, setSearch, setPage }) {
                 </button> : (
                     <Avatar sx={{ bgcolor: deepOrange[500] }}>{user?.name.slice(0, 1)}</Avatar>
                 )}
+
+                {
+                    <button onClick={LeaveAccount}><LogoutIcon/></button>
+                }
             </div>
         </div>
     );

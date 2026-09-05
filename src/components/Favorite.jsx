@@ -71,12 +71,8 @@ function Favorites() {
                             py: 1.5,
                             borderRadius: 2,
                             textTransform: "none",
-                            fontSize: "1rem",
                             fontWeight: 600,
                             backgroundColor: "#ff0000",
-                            "&:hover": {
-                                backgroundColor: "#E00B41",
-                            },
                         }}
                     >
                         Delete

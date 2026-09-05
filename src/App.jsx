@@ -61,8 +61,10 @@ function App() {
           path="/favorite"
           element={<Favorite />}
         />
-        
+
         <Route path="/bookings" element={<Booking />} />
+
+
       </Routes>
 
 

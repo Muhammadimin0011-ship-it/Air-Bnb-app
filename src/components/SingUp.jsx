@@ -28,6 +28,7 @@ function SingUp() {
         toast.success("Registered successfully")
         setAccessToken(data?.register?.accessToken)
         setUser(data?.register?.user)
+        window.location.href = "/";
     }
 
     const handleSingUp = (value) => {

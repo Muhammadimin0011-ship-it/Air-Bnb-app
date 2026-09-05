@@ -6,7 +6,10 @@ const BOOKINGS_QUERY = gql`
     query Bookings {
         bookings {
             id
-            listingId
+            listing {
+                id
+                title
+            }
             checkIn
             checkOut
             guests
@@ -39,11 +42,11 @@ function Booking() {
                         key={booking.id}
                     >
                         <h2>
-                            Booking #{booking.id}
+                            Booking ID:{booking.id}
                         </h2>
 
                         <p>
-                            <b>Listing:</b> {booking.listingId}
+                            <b>Listing:</b> {booking.listing?.title}
                         </p>
 
                         <p>

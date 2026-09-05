@@ -1,5 +1,5 @@
 import { gql } from "@apollo/client";
-import { useQuery } from "@apollo/client/react";
+import { useMutation, useQuery } from "@apollo/client/react";
 import { useParams } from "react-router";
 import { useState } from "react";
 import "../style/detail.css";
@@ -24,8 +24,27 @@ const LISTING_QUERY = gql`
   }
 `;
 
+const CREATE_BOOKING = gql`
+    mutation CreateBooking(
+        $listingId: ID!
+        $checkIn: String!
+        $checkOut: String!
+        $guests: Int!
+    ) {
+        createBooking(
+            listingId: $listingId
+            checkIn: $checkIn
+            checkOut: $checkOut
+            guests: $guests
+        ) {
+            id
+        }
+    }
+`;
+
 function Detail() {
     const { id } = useParams();
+    const [createBooking] = useMutation(CREATE_BOOKING);
 
     const [arrival, setArrival] = useState("");
     const [departure, setDeparture] = useState("");
@@ -47,7 +66,6 @@ function Detail() {
 
     const listing = data?.listing;
 
-    // Necha kecha
     let nights = 0;
 
     if (arrival && departure) {
@@ -61,11 +79,7 @@ function Detail() {
         );
     }
 
-    // Umumiy narx
-    const totalPrice =
-        nights > 0
-            ? listing.pricePerNight * nights
-            : 0;
+    const totalPrice = nights > 0 ? listing.pricePerNight * nights : 0;
 
     return (
         <div className="detail">
@@ -99,9 +113,9 @@ function Detail() {
                     </p>
 
                     <p>
-                        {listing.guests} guests ·{" "}
-                        {listing.bedrooms} bedrooms ·{" "}
-                        {listing.beds} beds ·{" "}
+                        {listing.guests} guests
+                        {listing.bedrooms} bedrooms 
+                        {listing.beds} beds 
                         {listing.bathrooms} bathrooms
                     </p>
 
@@ -198,7 +212,7 @@ function Detail() {
 
                     {nights > 0 && (
                         <div className="nights-box">
-                            <b>{nights}</b>{" "}
+                            <b>{nights}</b>
                             {nights === 1 ? "night" : "nights"}
                         </div>
                     )}
@@ -212,8 +226,36 @@ function Detail() {
                         </b>
 
                     </div>
+                    <button
+                        className="reserve-btn"
+                        onClick={async () => {
+                            if (!arrival || !departure) {
+                                alert("Choose arrival and departure");
+                                return;
+                            }
 
-                    <button className="reserve-btn">
+                            if (nights <= 0) {
+                                alert("Departure date must be after arrival date");
+                                return;
+                            }
+
+                            try {
+                                await createBooking({
+                                    variables: {
+                                        listingId: id,
+                                        checkIn: arrival,
+                                        checkOut: departure,
+                                        guests: guests,
+                                    },
+                                });
+
+                                alert("Booking created!");
+                            } catch (error) {
+                                console.log(error);
+                                alert(error.message);
+                            }
+                        }}
+                    >
                         Book now
                     </button>
 
