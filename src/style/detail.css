@@ -119,3 +119,92 @@
     text-align: center;
     color: gray;
 }
+
+
+.booking-info {
+    border: 1px solid #999;
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+.date-box {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+.date-box>div {
+    padding: 14px;
+}
+
+.date-box>div:first-child {
+    border-right: 1px solid #999;
+}
+
+.date-box label,
+.guest-box label {
+    display: block;
+    font-size: 12px;
+    font-weight: 700;
+    margin-bottom: 7px;
+}
+
+.date-box input {
+    width: 100%;
+    border: none;
+    outline: none;
+    font-size: 15px;
+    box-sizing: border-box;
+}
+
+.guest-box {
+    padding: 14px;
+    border-top: 1px solid #999;
+}
+
+.guest-box input {
+    width: 60px;
+    border: none;
+    outline: none;
+    font-size: 17px;
+}
+
+.guest-box span {
+    font-size: 17px;
+}
+
+.nights-box {
+    margin-top: 15px;
+    padding: 12px;
+    background: #f3f3f3;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.total-price {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+    font-size: 19px;
+}
+
+.reserve-btn {
+    width: 100%;
+    margin-top: 20px;
+    padding: 17px;
+    border: none;
+    border-radius: 30px;
+    background: #e90046;
+    color: white;
+    font-size: 19px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.reserve-btn:hover {
+    background: #d50040;
+}
+
+.pay {
+    text-align: center;
+    color: #555;
+}

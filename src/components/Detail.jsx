@@ -1,6 +1,7 @@
 import { gql } from "@apollo/client";
 import { useQuery } from "@apollo/client/react";
 import { useParams } from "react-router";
+import { useState } from "react";
 import "../style/detail.css";
 
 const LISTING_QUERY = gql`
@@ -26,6 +27,10 @@ const LISTING_QUERY = gql`
 function Detail() {
     const { id } = useParams();
 
+    const [arrival, setArrival] = useState("");
+    const [departure, setDeparture] = useState("");
+    const [guests, setGuests] = useState(1);
+
     const { data, loading, error } = useQuery(LISTING_QUERY, {
         variables: {
             listingId: id,
@@ -41,6 +46,26 @@ function Detail() {
     }
 
     const listing = data?.listing;
+
+    // Necha kecha
+    let nights = 0;
+
+    if (arrival && departure) {
+        const arrivalDate = new Date(arrival);
+        const departureDate = new Date(departure);
+
+        const difference = departureDate - arrivalDate;
+
+        nights = Math.ceil(
+            difference / (1000 * 60 * 60 * 24)
+        );
+    }
+
+    // Umumiy narx
+    const totalPrice =
+        nights > 0
+            ? listing.pricePerNight * nights
+            : 0;
 
     return (
         <div className="detail">
@@ -74,11 +99,15 @@ function Detail() {
                     </p>
 
                     <p>
-                        {listing.guests} guests · {listing.bedrooms} bedrooms ·{" "}
-                        {listing.beds} beds · {listing.bathrooms} bathrooms
+                        {listing.guests} guests ·{" "}
+                        {listing.bedrooms} bedrooms ·{" "}
+                        {listing.beds} beds ·{" "}
+                        {listing.bathrooms} bathrooms
                     </p>
 
-                    <p>Rating {listing.rating}⭐</p>
+                    <p>
+                        Rating {listing.rating}⭐
+                    </p>
 
                     <hr />
 
@@ -117,16 +146,79 @@ function Detail() {
                         <span> / night</span>
                     </h2>
 
+                    <div className="booking-info">
 
-                    <div className="guest-box">
-                        <p>GUESTS</p>
-                        <b>{listing.guests} guests</b>
+                        <div className="date-box">
+
+                            <div>
+                                <label>ARRIVAL</label>
+
+                                <input
+                                    type="date"
+                                    value={arrival}
+                                    onChange={(e) =>
+                                        setArrival(e.target.value)
+                                    }
+                                />
+                            </div>
+
+                            <div>
+                                <label>DEPARTURE</label>
+
+                                <input
+                                    type="date"
+                                    value={departure}
+                                    onChange={(e) =>
+                                        setDeparture(e.target.value)
+                                    }
+                                />
+                            </div>
+
+                        </div>
+
+                        <div className="guest-box">
+
+                            <label>FOR WHOM</label>
+
+                            <input
+                                type="number"
+                                min="1"
+                                max={listing.guests}
+                                value={guests}
+                                onChange={(e) =>
+                                    setGuests(Number(e.target.value))
+                                }
+                            />
+
+                            <span> guests</span>
+
+                        </div>
+
                     </div>
 
-                    <button>Reserve</button>
+                    {nights > 0 && (
+                        <div className="nights-box">
+                            <b>{nights}</b>{" "}
+                            {nights === 1 ? "night" : "nights"}
+                        </div>
+                    )}
+
+                    <div className="total-price">
+
+                        <span>Total</span>
+
+                        <b>
+                            ${totalPrice}
+                        </b>
+
+                    </div>
+
+                    <button className="reserve-btn">
+                        Book now
+                    </button>
 
                     <p className="pay">
-                        You won't be charged yet
+                        For now you don't pay for anything
                     </p>
 
                 </div>

@@ -1,0 +1,29 @@
+.bookings-page {
+    padding: 30px;
+}
+
+.bookings-page h1 {
+    margin-bottom: 25px;
+}
+
+.bookings-wrapper {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.booking-card {
+    padding: 20px;
+    border-radius: 15px;
+    background: white;
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.12);
+}
+
+.booking-card h2 {
+    margin-top: 0;
+    margin-bottom: 20px;
+}
+
+.booking-card p {
+    margin: 10px 0;
+}

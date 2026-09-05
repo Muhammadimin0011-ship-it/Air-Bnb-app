@@ -36,8 +36,17 @@ function Header({ search, setSearch, setPage }) {
 
             <div className='buttons'>
                 {
-                    <Link to="/favorite"><FavoriteIcon/></Link>
+                    <Link to="/favorite"><FavoriteIcon /></Link>
                 }
+
+
+                {
+                    <Link to="/bookings">
+                        Bookings
+                    </Link>
+                }
+
+
                 {!accessToken ? <button>
                     <Link to="/sing-up">Sign up</Link>
                 </button> : (

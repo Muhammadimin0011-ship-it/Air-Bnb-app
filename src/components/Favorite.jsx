@@ -1,5 +1,6 @@
 import { gql } from "@apollo/client";
-import { useQuery } from "@apollo/client/react";
+import { useMutation, useQuery } from "@apollo/client/react";
+import { Button } from '@mui/material';
 
 const FAVORITES_QUERY = gql`
     query MyFavorites {
@@ -14,8 +15,32 @@ const FAVORITES_QUERY = gql`
     }
 `;
 
+const REMOVE_FAV = gql`
+    mutation RemoveFavorite($listingId: ID!) {
+        removeFavorite(listingId: $listingId) {
+            id
+        }
+    }
+`;
+
 function Favorites() {
-    const { data, loading, error } = useQuery(FAVORITES_QUERY);
+    const { data, loading, error, refetch } = useQuery(FAVORITES_QUERY);
+
+    const [removeFavorite] = useMutation(REMOVE_FAV);
+
+    const handleRemoveFavorite = async (listingId) => {
+        try {
+            await removeFavorite({
+                variables: {
+                    listingId: listingId,
+                },
+            });
+
+            await refetch();
+        } catch (error) {
+            console.log(error);
+        }
+    };
 
     if (loading) return <p>Loading...</p>;
     if (error) return <p>Error: {error.message}</p>;
@@ -30,11 +55,35 @@ function Favorites() {
                     />
 
                     <h3>{listing.title}</h3>
+
                     <p>{listing.address}</p>
-                    <p>${listing.pricePerNight} / night</p>
+
+                    <p>
+                        ${listing.pricePerNight} / night
+                    </p>
+
                     <p>⭐ {listing.rating}</p>
+
+                    <Button
+                        onClick={() => handleRemoveFavorite(listing.id)}
+                        sx={{
+                            color: "white",
+                            py: 1.5,
+                            borderRadius: 2,
+                            textTransform: "none",
+                            fontSize: "1rem",
+                            fontWeight: 600,
+                            backgroundColor: "#ff0000",
+                            "&:hover": {
+                                backgroundColor: "#E00B41",
+                            },
+                        }}
+                    >
+                        Delete
+                    </Button>
                 </div>
             ))}
+            {!data?.favorites ? 'favorite is not defined' : ''}
         </div>
     );
 }

@@ -8,6 +8,7 @@ import SingUp from "./components/SingUp";
 import Header from "./components/Header";
 import Detail from "./components/Detail";
 import Favorite from "./components/Favorite";
+import Booking from "./components/Booking";
 
 import { graphqlClient } from "./store/graph-client";
 
@@ -60,7 +61,10 @@ function App() {
           path="/favorite"
           element={<Favorite />}
         />
+        
+        <Route path="/bookings" element={<Booking />} />
       </Routes>
+
 
     </ApolloProvider>
   );
