@@ -7,6 +7,7 @@ import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt';
 import { Link } from "react-router";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import { useState } from "react";
+import {ThreeDot} from "react-loading-indicators"
 
 
 const LISTINGS_QUERY = gql`
@@ -74,7 +75,7 @@ function Listings({ search, setPage, page }) {
                     </h1>
                 )}
 
-                {loading && <h1>Loading...</h1>}
+                {loading && <ThreeDot color="#32cd32" size="medium" text="" textColor="#ffffff" />}
 
 
                 <div className="wrapper">
